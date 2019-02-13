@@ -1,34 +1,35 @@
-var fs = require('fs');
-var shell = require('gulp-shell');
-
+var fs = require("fs");
+var shell = require("gulp-shell");
 
 module.exports = function(gulp) {
+  var graphGenerate = function(done) {
+    var dot = "digraph g {\n";
 
-    gulp.task('graphGenerate', function () {
+    var tree = require("gulp/lib/taskTree")(gulp._registry._tasks);
 
-        var dot = 'digraph g {\n';
-
-        var tree = require('gulp/lib/taskTree')(this.tasks);
-
-        tree.nodes.forEach(function (node) {
-            dot += '"' + node.label + '";\n';
-        });
-
-        dot += '\n';
-
-        tree.nodes.forEach(function (node) {
-            node.nodes.forEach(function (dep) {
-                dot += '"' + dep + '" -> "' + node.label + '";\n';
-            });
-        });
-
-        dot += '}\n';
-
-        fs.writeFileSync('gulp.dot', dot);
+    tree.nodes.forEach(function(node) {
+      dot += '"' + node.label + '";\n';
     });
 
-    gulp.task('graph', ['graphGenerate'], shell.task([
-        'dot -Tpng gulp.dot >gulp.png'
-    ]));
+    dot += "\n";
 
+    tree.nodes.forEach(function(node) {
+      node.nodes.forEach(function(dep) {
+        dot += '"' + dep + '" -> "' + node.label + '";\n';
+      });
+    });
+
+    dot += "}\n";
+
+    fs.writeFile("gulp.dot", dot, done);
+  };
+
+  return {
+    graphGenerate: graphGenerate,
+
+    graph: gulp.series(
+      shell.task(["dot -Tpng gulp.dot >gulp.png"]),
+      graphGenerate
+    )
+  };
 };

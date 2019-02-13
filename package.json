@@ -1,14 +1,15 @@
 {
   "name": "gulp-graph",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "main": "index.js",
   "devDependencies": {
     "chai": "^1.10.0",
     "chai-fs": "^0.1.0",
-    "jshint": "^2.8.0"
+    "jshint": "^2.8.0",
+    "mocha": "*"
   },
   "dependencies": {
-    "gulp": "^3.9.0",
+    "gulp": "^4.0.0",
     "gulp-shell": "^0.6.4"
   },
   "scripts": {

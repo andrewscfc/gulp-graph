@@ -1,6 +1,6 @@
 // This is how to import within a gulpfile
 var gulp = require('gulp');
-require('./index.js')(gulp);
+var gulpGraph = require('./index.js')(gulp);
 
 // Test dependencies
 var fs = require('fs');
@@ -27,16 +27,17 @@ describe('gulp-graph', function () {
     });
 
     it('creates a dot file', function (done) {
-        gulp.start('graphGenerate', function () {
+        gulpGraph.graphGenerate(function () {
             expect('gulp.dot').to.be.a.file();
             done();
         });
     });
 
     it('creates a png file', function (done) {
-        gulp.start('graph', function () {
+        gulpGraph.graph(function () {
             expect('gulp.png').to.be.a.file();
             done();
         });
+        
     });
 });
